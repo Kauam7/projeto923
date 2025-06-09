@@ -24,7 +24,7 @@ class OffensiveCalendarPage extends StatefulWidget {
 }
 
 class _OffensiveCalendarPageState extends State<OffensiveCalendarPage> {
-  // Data central do calendário e dia selecionado pelo usuário.
+  // Data central do calendário e dia selecionahdo pelo usuário.
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
