@@ -15,42 +15,15 @@ class QuizApp extends StatelessWidget {
   }
 }
 
-class QuizScreen extends StatefulWidget {
-  @override
-  State<QuizScreen> createState() => _QuizScreenState();
-}
-
-class _QuizScreenState extends State<QuizScreen> {
+class QuizScreen extends StatelessWidget {
   // Definindo a pergunta e as alternativas
-  String question = "Qual é a capital do Brasil?";
-  List<String> alternatives = [
+  final String question = "Qual é a capital do Brasil?";
+  final List<String> alternatives = [
     "Porto Alegre",
     "Belo Horizonte",
     "Brasília", // resposta correta
     "Recife",
   ];
-
-  // Índice da resposta correta (nesse caso, "Brasília" é a alternativa do índice 2)
-  final int correctAnswerIndex = 2;
-
-  // Variável para armazenar o índice da resposta selecionada
-  int? selectedIndex;
-
-  // Variável para exibir o resultado da validação
-  String resultText = "";
-
-  // Função que verifica se a resposta selecionada está correta
-  void checkAnswer() {
-    if (selectedIndex == null) return;
-
-    setState(() {
-      if (selectedIndex == correctAnswerIndex) {
-        resultText = "Resposta correta!";
-      } else {
-        resultText = "Resposta incorreta!";
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,32 +40,29 @@ class _QuizScreenState extends State<QuizScreen> {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),
-            // Exibição das alternativas usando RadioListTile
+            // Exibição das alternativas usando RadioListTile sem funcionalidade
             Column(
               children: List.generate(alternatives.length, (index) {
                 return Card(
                   child: RadioListTile<int>(
                     value: index,
-                    groupValue: selectedIndex,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedIndex = value;
-                        resultText =
-                            ""; // Reinicia a mensagem de resultado ao mudar a seleção
-                      });
-                    },
+                    groupValue: null, // Nenhuma alternativa selecionada
+                    onChanged: null, // Sem ação ao tocar
                     title: Text(alternatives[index]),
                   ),
                 );
               }),
             ),
             SizedBox(height: 20),
-            // Botão para confirmar a resposta
-            ElevatedButton(onPressed: checkAnswer, child: Text("Confirmar")),
+            // Botão "Confirmar" com aparência, mas sem funcionalidade
+            ElevatedButton(
+              onPressed: null, // Botão desabilitado, sem ação
+              child: Text("Confirmar"),
+            ),
             SizedBox(height: 20),
-            // Exibição do resultado (correto ou incorreto)
+            // Espaço para exibição de resultado (neste caso, vazio)
             Text(
-              resultText,
+              "",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ],
