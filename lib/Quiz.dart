@@ -39,12 +39,11 @@ class QuizScreen extends StatelessWidget {
             Column(
               children: List.generate(alternatives.length, (index) {
                 return Card(
-                  child: RadioListTile<int>(
-                    value: index,
-                    groupValue: null,
-                    onChanged: null,
-                    title: Text(alternatives[index]),
-                  ),
+                  child: ListTile(
+  leading: Icon(Icons.radio_button_unchecked),
+  title: Text(alternatives[index]),
+);
+
                 );
               }),
             ),
