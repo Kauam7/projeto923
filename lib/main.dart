@@ -5,6 +5,7 @@ void main() {
   runApp(QuizApp());
 }
 
+//deumerda
 //FUNCAO PRINCIPAL
 void main() {
   runApp(const MyApp());
