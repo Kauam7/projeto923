@@ -1,84 +1,167 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(QuizApp());
-}
-
-
-class QuizApp extends StatelessWidget {
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Quiz',
-      debugShowCheckedModeBanner: false,
-      home: QuizScreen(),
-    );
-  }
-}
+import 'pergunta_dao.dart';
+import 'pergunta.dart';
 
 class QuizScreen extends StatefulWidget {
+  const QuizScreen({Key? key}) : super(key: key);
+
   @override
-  State<QuizScreen> createState() => _QuizScreenState();
+  _QuizScreenState createState() => _QuizScreenState();
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  String question = "Qual é a capital do Brasil?";
-  List<String> alternatives = [
-    "Porto Alegre",
-    "Belo Horizonte",
-    "Brasília",
-    "Recife",
-  ];
+  late PerguntaDao _perguntaDao;
+  Pergunta? _pergunta;
+  int? selectedIndex;
 
+  @override
+  void initState() {
+    super.initState();
+    _perguntaDao = PerguntaDao();
+    _carregarPergunta();
+  }
+
+  Future<void> _carregarPergunta() async {
+    try {
+      var pergunta = await _perguntaDao.carregarPergunta();
+      setState(() {
+        _pergunta = pergunta;
+      });
+    } catch (e) {
+      print('Erro ao carregar pergunta: $e');
+    }
+  }
+
+  void selectAlternative(int index) {
+    setState(() => selectedIndex = index);
+  }
+
+  void _confirmarResposta() {
+    if (selectedIndex == null || _pergunta == null) return;
+
+    bool correta = (selectedIndex! + 1) == _pergunta!.respostaCorreta;
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(correta ? 'Correto!' : 'Incorreto'),
+        content: Text(correta
+            ? 'Você acertou a resposta!'
+            : 'A resposta correta é: ${_pergunta!.alternativas[_pergunta!.respostaCorreta - 1]}'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_pergunta == null) {
+      return Scaffold(
+        appBar: AppBar(title: Text("Quiz")),
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Quiz"),
+        title: const Text("Quiz"),
         centerTitle: true,
       ),
-
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              question,
-              style: TextStyle(fontSize: 22),
+              _pergunta!.texto,
+              style: const TextStyle(fontSize: 22),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 20),
+
+            const SizedBox(height: 20),
+
             Column(
-              children: List.generate(alternatives.length, (index) {
-                return Card(
-                  child: ListTile(
-                    leading: Icon(Icons.radio_button_unchecked),
-                    title: Text(alternatives[index]),
+              children: List.generate(_pergunta!.alternativas.length, (index) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(vertical: 6),
+                  decoration: BoxDecoration(
+                    color: selectedIndex == index
+                        ? Colors.purple.withOpacity(0.1)
+                        : Colors.white,
+                    borderRadius: BorderRadius.circular(4),
+                    boxShadow: const [
+                      BoxShadow(color: Colors.black12, blurRadius: 2),
+                    ],
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(4),
+                    onTap: () => selectAlternative(index),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
+                        children: [
+                          Icon(
+                            selectedIndex == index
+                                ? Icons.radio_button_checked
+                                : Icons.radio_button_unchecked,
+                            color: selectedIndex == index
+                                ? Colors.purple
+                                : Colors.grey,
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            _pergunta!.alternativas[index],
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: selectedIndex == index
+                                  ? Colors.purple
+                                  : Colors.black87,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               }),
             ),
-            SizedBox(height: 20),
+
+            const Spacer(),
+
             Container(
-              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
               decoration: BoxDecoration(
-                color:Colors.purple,
+                color: Colors.purple,
                 borderRadius: BorderRadius.circular(4),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 2,
-                  ),
-                ],
               ),
-              child: Text(
-                "Confirmar",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+              child: ElevatedButton(
+                onPressed: _confirmarResposta,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.purple,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.check),
+                    SizedBox(width: 8),
+                    Text(
+                      "Confirmar",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            SizedBox(height: 20),
+              ),
           ],
         ),
       ),
