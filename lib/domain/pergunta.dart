@@ -26,4 +26,6 @@ class Pergunta {
     c = json['c'] as String;
     d = json['d'] as String;
   }
+
+  List<String> get alternativas => [a, b, c, d];
 }

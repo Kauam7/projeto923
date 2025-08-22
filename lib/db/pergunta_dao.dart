@@ -1,7 +1,7 @@
 import 'package:sqflite/sqlite_api.dart';
 
-import 'db_helper.dart';
-import 'pergunta.dart';
+import '../db_helper.dart';
+import '../domain/pergunta.dart';
 
 class PerguntaDao {
   Future<List<Pergunta>> carregarPerguntas() async {
