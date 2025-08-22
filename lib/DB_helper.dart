@@ -1,6 +1,5 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'perguntas.dart';
 
 class QuizDBHelper {
   Future<Database> initDB() async {
@@ -18,10 +17,10 @@ class QuizDBHelper {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       texto TEXT NOT NULL,
       respostaCorreta INTEGER NOT NULL ,
-      alt1 TEXT NOT NULL,
-      alt2 TEXT NOT NULL,
-      alt3 TEXT NOT NULL,
-      alt4 TEXT NOT NULL
+      a TEXT NOT NULL,
+      b TEXT NOT NULL,
+      c TEXT NOT NULL,
+      d TEXT NOT NULL
     );''';
     await db.execute(sql);
 
@@ -34,10 +33,10 @@ class QuizDBHelper {
     INSERT INTO Pergunta (
       texto, 
       respostaCorreta,
-      alt1,
-      alt2,
-      alt3,
-      alt4
+      a,
+      b,
+      c,
+      d
     ) VALUES (
       'Qual é a capital do Brasil?',
       3,

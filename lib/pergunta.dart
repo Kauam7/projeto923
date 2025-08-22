@@ -17,5 +17,13 @@ class Pergunta {
     required this.d,
   });
 
-  List<String> get alternativas => [a, b, c, d];
+  Pergunta.fromJson(Map<String, dynamic> json) {
+    id = json['id'] as int;
+    texto = json['texto'] as String;
+    respostaCorreta = json['respostaCorreta'] as int;
+    a = json['a'] as String;
+    b = json['b'] as String;
+    c = json['c'] as String;
+    d = json['d'] as String;
+  }
 }

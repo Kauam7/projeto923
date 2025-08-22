@@ -4,21 +4,21 @@ import 'db_helper.dart';
 import 'pergunta.dart';
 
 class PerguntaDao {
-  Future<Pergunta> carregarPergunta() async {
+  Future<List<Pergunta>> carregarPerguntas() async {
     Database db = await QuizDBHelper().initDB();
 
-    // Buscar a primeira pergunta (para simplificar)
-    var perguntaResult = await db.rawQuery('SELECT * FROM Pergunta LIMIT 1;');
-    if (perguntaResult.isEmpty) {
+    var perguntasResult = await db.rawQuery('SELECT * FROM Pergunta;');
+    if (perguntasResult.isEmpty) {
       throw Exception('Nenhuma pergunta encontrada');
     }
 
-    var pergunta = perguntaResult.first;
-    var alternativasResult = await db.rawQuery(
-        'SELECT * FROM Alternativa WHERE perguntaId = ?;',
-        [pergunta['id']]
-    );
+    List<Pergunta> listaPerguntas = [];
 
-    return Pergunta.fromJson(pergunta, alternativasResult);
+    for (var json in perguntasResult) {
+      Pergunta pergunta = Pergunta.fromJson(json);
+      listaPerguntas.add(pergunta);
+    }
+
+    return listaPerguntas;
   }
 }
