@@ -11,7 +11,7 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   late PerguntaDao _perguntaDao;
-  Pergunta? _pergunta;
+  Pergunta? _pergunta  ;
   int? selectedIndex;
 
   @override
@@ -25,7 +25,7 @@ class _QuizScreenState extends State<QuizScreen> {
     try {
       var pergunta = await _perguntaDao.carregarPerguntas();
       setState(() {
-        _pergunta = pergunta[1];
+        _pergunta = pergunta[0];
       });
     } catch (e) {
       print('Erro ao carregar pergunta: $e');
@@ -60,6 +60,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     if (_pergunta == null) {
       return Scaffold(
         appBar: AppBar(title: Text("Quiz")),
@@ -114,13 +115,14 @@ class _QuizScreenState extends State<QuizScreen> {
                                 : Colors.grey,
                           ),
                           const SizedBox(width: 12),
-                          Text(
-                            _pergunta!.alternativas[index],
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: selectedIndex == index
-                                  ? Colors.purple
-                                  : Colors.black87,
+                          Expanded(
+                            child: Text(
+                              _pergunta!.alternativas[index],
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: selectedIndex == index ? Colors.purple : Colors.black87,
+                              ),
+                              softWrap: true,
                             ),
                           ),
                         ],

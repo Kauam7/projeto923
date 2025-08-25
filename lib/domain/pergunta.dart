@@ -19,7 +19,7 @@ class Pergunta {
 
   Pergunta.fromJson(Map<String, dynamic> json) {
     id = json['id'] as int;
-    texto = json['texto'] as String;
+    texto = json['texto'] ?? '';
     respostaCorreta = json['respostaCorreta'] as int;
     a = json['a'] as String;
     b = json['b'] as String;

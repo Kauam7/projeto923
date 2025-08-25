@@ -1,6 +1,6 @@
 import 'package:sqflite/sqlite_api.dart';
 
-import '../db_helper.dart';
+import 'package:projeto_923/db/DB_helper.dart';
 import '../domain/pergunta.dart';
 
 class PerguntaDao {
@@ -8,6 +8,8 @@ class PerguntaDao {
     Database db = await QuizDBHelper().initDB();
 
     var perguntasResult = await db.rawQuery('SELECT * FROM Pergunta;');
+
+    print(perguntasResult);
     if (perguntasResult.isEmpty) {
       throw Exception('Nenhuma pergunta encontrada');
     }
