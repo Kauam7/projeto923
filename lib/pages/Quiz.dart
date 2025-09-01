@@ -13,6 +13,9 @@ class _QuizScreenState extends State<QuizScreen> {
   late PerguntaDao _perguntaDao;
   Pergunta? _pergunta  ;
   int? selectedIndex;
+  bool conf_resp = false;
+  int quant_perguntas = 2;
+  int perg_atual = 0;
 
   @override
   void initState() {
@@ -23,9 +26,10 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Future<void> _carregarPergunta() async {
     try {
-      var pergunta = await _perguntaDao.carregarPerguntas();
+      var pergunta = await _perguntaDao.carregarPerguntas(quant_perguntas);
       setState(() {
-        _pergunta = pergunta[0];
+        _pergunta = pergunta[perg_atual];
+        perg_atual++;
       });
     } catch (e) {
       print('Erro ao carregar pergunta: $e');
@@ -37,6 +41,10 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void _confirmarResposta() {
+    if(conf_resp){
+
+    }else{
+      //conf_resp = true;
     if (selectedIndex == null || _pergunta == null) return;
 
     bool correta = (selectedIndex! + 1) == _pergunta!.respostaCorreta;
@@ -57,9 +65,11 @@ class _QuizScreenState extends State<QuizScreen> {
       ),
     );
   }
+  }
 
   @override
   Widget build(BuildContext context) {
+
 
     if (_pergunta == null) {
       return Scaffold(
