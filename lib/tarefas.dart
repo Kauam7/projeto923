@@ -1,7 +1,7 @@
 class Tarefa {
   int? id;
   String descricao;
-  String data; // YYYY-MM-DD
+  String data;
   bool concluida;
 
   Tarefa({

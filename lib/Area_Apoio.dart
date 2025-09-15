@@ -22,14 +22,7 @@ class _AreaApoioState extends State<AreaApoio> {
 
   Future<void> _carregarTarefas() async {
     String hoje = DateTime.now().toIso8601String().substring(0, 10);
-    List<Tarefa> tarefas = await _tarefaDao.listarTarefasDoDia(hoje);
-
-    if (tarefas.isEmpty) {
-      await _tarefaDao.salvar(Tarefa(descricao: "Caminhei 10 minutos ou mais.", data: hoje));
-      await _tarefaDao.salvar(Tarefa(descricao: "Tome 2L ou mais de água!", data: hoje));
-      await _tarefaDao.salvar(Tarefa(descricao: "Anotei algo positivo hoje!", data: hoje));
-      tarefas = await _tarefaDao.listarTarefasDoDia(hoje);
-    }
+    List<Tarefa> tarefas = await _tarefaDao.garantirTarefasDodia(hoje);
 
     setState(() {
       tarefasDoDia = tarefas;
@@ -80,9 +73,11 @@ class _AreaApoioState extends State<AreaApoio> {
           ),
           centerTitle: true,
         ),
+
         body: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+
 
             Container(
               padding: const EdgeInsets.all(16),
@@ -125,8 +120,6 @@ class _AreaApoioState extends State<AreaApoio> {
                       ),
                     ],
                   ),
-
-                  // Imagem arredondada
                   ClipOval(
                     child: Image.asset(
                       'assets/imagen.png',
@@ -148,6 +141,7 @@ class _AreaApoioState extends State<AreaApoio> {
             ...tarefasDoDia.map((t) {
               return CheckboxListTile(
                 title: Text(t.descricao),
+                subtitle: Text("Data: ${t.data}"),
                 value: t.concluida,
                 onChanged: (val) {
                   if (val == true) _concluirTarefa(t);

@@ -13,10 +13,22 @@ class TarefaDao {
     final db = await DBHelper().database;
     final result = await db.query(
       'tarefas',
-      where: 'data = ? AND concluida = 0',
+      where: 'data = ? And concluida = 0',
       whereArgs: [data],
     );
+
     return result.map((map) => Tarefa.fromMap(map)).toList();
+  }
+  Future<List<Tarefa>> garantirTarefasDodia(String data) async {
+    List<Tarefa> tarefas = await listarTarefasDoDia(data);
+
+    if (tarefas.isEmpty) {
+      await salvar(Tarefa(descricao: "Caminhei 10 minutos ou mais.", data: data));
+      await salvar(Tarefa(descricao: "Tome 2L ou mais de água!", data: data));
+      await salvar(Tarefa(descricao: "Anotei algo positivo hoje!", data: data));
+      tarefas = await listarTarefasDoDia(data);
+    }
+    return tarefas;
   }
 
   Future<void> atualizar(Tarefa tarefa) async {
