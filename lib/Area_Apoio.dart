@@ -125,8 +125,6 @@ class _AreaApoioState extends State<AreaApoio> {
                       ),
                     ],
                   ),
-
-                  // Imagem arredondada
                   ClipOval(
                     child: Image.asset(
                       'assets/imagen.png',
