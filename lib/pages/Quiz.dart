@@ -11,7 +11,7 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   late PerguntaDao _perguntaDao;
-  Pergunta? _pergunta  ;
+  Pergunta? _pergunta;
   int? selectedIndex;
   bool conf_resp = false;
   int quant_perguntas = 2;
@@ -43,8 +43,11 @@ class _QuizScreenState extends State<QuizScreen> {
   void _confirmarResposta() {
     if(conf_resp){
 
+          _carregarPergunta();
+          conf_resp = false;
+
     }else{
-      //conf_resp = true;
+      conf_resp = true;
     if (selectedIndex == null || _pergunta == null) return;
 
     bool correta = (selectedIndex! + 1) == _pergunta!.respostaCorreta;
