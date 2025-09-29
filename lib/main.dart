@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'pages/Quiz.dart';
 
 void main() {
@@ -17,3 +18,4 @@ class QuizApp extends StatelessWidget {
     );
   }
 }
+
