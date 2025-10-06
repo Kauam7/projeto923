@@ -1,24 +1,20 @@
 
 import 'package:flutter/material.dart';
-import 'profile_list_screen.dart'; // Importa a tela de listagem de perfis
-
+import 'screens/profile_list_screen.dart';
 
 void main() {
-  runApp(const MyApp()); // Inicia o aplicativo com MyApp
+  runApp(const MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Cadastro de Perfil', // Título do app
-      theme: ThemeData(primarySwatch: Colors.blue), // Define o tema azul
-      home: const ProfileListScreen(), // Tela inicial do app
+      title: 'Perfil App',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const ProfileListScreen(),
     );
   }
 }
-
