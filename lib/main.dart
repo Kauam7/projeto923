@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'pages/Quiz.dart';
 /*
 import 'screens/profile_list_screen.dart';
 
@@ -18,28 +19,32 @@ class MyApp extends StatelessWidget {
       home: const ProfileListScreen(),
     );
   }
-=======
+*/
 
-import 'pages/Quiz.dart';
+import 'pages/home_page.dart';
+
+
+
 
 void main() {
-  runApp(const QuizApp());
-
+  runApp(const MyApp());
 }
-*/
-class QuizApp extends StatelessWidget {
-  const QuizApp({Key? key}) : super(key: key);
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Quiz',
       debugShowCheckedModeBanner: false,
-      home: const QuizScreen(),
+      title: 'Projeto 923',
+      theme: ThemeData(
+        primarySwatch: Colors.pink,
+      ),
+      home: const HomePage(),
     );
   }
-}
 
 /* 
 fdgfd
-*/
+*/}
