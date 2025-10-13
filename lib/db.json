@@ -1,0 +1,17 @@
+
+{
+  "profiles": [
+    {
+      "id": 1,
+      "name": "João Silva",
+      "email": "joao.silva@example.com",
+      "phone": "11999999999"
+    },
+    {
+      "id": 2,
+      "name": "Maria Oliveira",
+      "email": "maria.oliveira@example.com",
+      "phone": "11888888888"
+    }
+  ]
+}
