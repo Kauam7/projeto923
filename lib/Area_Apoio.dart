@@ -14,18 +14,23 @@ class _AreaApoioState extends State<AreaApoio> {
   final TarefaDao _tarefaDao = TarefaDao();
   List<Tarefa> tarefasDoDia = [];
 
+  bool _mostrarConteudo = false;
   @override
   void initState() {
     super.initState();
     _carregarTarefas();
   }
+  Future<void>_carregarTarefas() async{
+    await Future.delayed(const Duration(seconds: 3));
+    setState(() {
+    });
 
-  Future<void> _carregarTarefas() async {
     String hoje = DateTime.now().toIso8601String().substring(0, 10);
     List<Tarefa> tarefas = await _tarefaDao.garantirTarefasDodia(hoje);
 
     setState(() {
       tarefasDoDia = tarefas;
+      _mostrarConteudo = true;
     });
   }
 
@@ -73,8 +78,12 @@ class _AreaApoioState extends State<AreaApoio> {
           ),
           centerTitle: true,
         ),
-
-        body: ListView(
+        body: !_mostrarConteudo
+        ? const Center( child: CircularProgressIndicator(
+          backgroundColor: Colors.grey
+        ),
+      )
+            : ListView(
           padding: const EdgeInsets.all(16),
           children: [
 
@@ -158,7 +167,7 @@ class _AreaApoioState extends State<AreaApoio> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue.shade300,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: 20),
               ),
               child: const Text("Sair"),
             ),
@@ -168,3 +177,5 @@ class _AreaApoioState extends State<AreaApoio> {
     );
   }
 }
+
+
