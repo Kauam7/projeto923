@@ -3,7 +3,9 @@ import '../db/pergunta_dao.dart';
 import '../domain/pergunta.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({Key? key}) : super(key: key);
+  final int quantPerguntas;
+
+  const QuizScreen({Key? key, required this.quantPerguntas})  : super(key: key);
 
   @override
   _QuizScreenState createState() => _QuizScreenState();
@@ -14,7 +16,7 @@ class _QuizScreenState extends State<QuizScreen> {
   Pergunta? _pergunta;
   int? selectedIndex;
   bool conf_resp = false;
-  int quant_perguntas = 2;
+  int? quant_perguntas;
   int perg_atual = 0;
 
   @override
@@ -22,14 +24,12 @@ class _QuizScreenState extends State<QuizScreen> {
     super.initState();
     _perguntaDao = PerguntaDao();
     _carregarPergunta();
-    /*WidgetsBinding.instance.addPostFrameCallback((_) {
-      quantas_perg();
-    });*/
+    quant_perguntas = widget.quantPerguntas;
   }
 
   Future<void> _carregarPergunta() async {
     try {
-      var pergunta = await _perguntaDao.carregarPerguntas(quant_perguntas);
+      var pergunta = await _perguntaDao.carregarPerguntas(widget.quantPerguntas);
       setState(() {
         _pergunta = pergunta[perg_atual];
         perg_atual++ > pergunta.length ? print("is over") : perg_atual++;
@@ -77,60 +77,6 @@ class _QuizScreenState extends State<QuizScreen> {
     if(perg_atual++ > pergunta.length){
 
     }
-  }
-
-  void quantas_perg() {
-    TextEditingController _controller = TextEditingController();
-
-    showDialog(
-      context: context,
-      barrierColor: Colors.white,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Aviso'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Quantas perguntas quer no quiz?'),
-              SizedBox(height: 10),
-              TextField(
-                controller: _controller,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Digite um número',
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                String valor = _controller.text;
-                int? quantidade = int.tryParse(valor);
-                if (quantidade != null && quantidade > 0) {
-                  setState(() {
-                    quant_perguntas = quantidade;
-                    perg_atual = 0;
-                  });
-                  _carregarPergunta();
-                }
-
-              },
-              child: Text('Fechar'),
-            ),
-            TextButton(
-              onPressed: () {
-                String valor = _controller.text;
-                print('Quantidade de perguntas: $valor');
-                Navigator.of(context).pop();
-              },
-              child: Text('Confirmar'),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
