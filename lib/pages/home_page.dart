@@ -1,6 +1,9 @@
 import 'package:projeto_923/pages/Quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:projeto_923/pages/QuizIntroScreen.dart';
+import 'package:projeto_923/screens/profile_detail_screen.dart';
+import 'package:projeto_923/screens/profile_list_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,7 +16,9 @@ class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
 
   var pages = [
-    QuizScreen()
+    ProfileListScreen(),
+    QuizIntroScreen()
+    //ProfileDetailScreen(profile: profile)
   ];
 
   @override
@@ -51,20 +56,16 @@ class _HomePageState extends State<HomePage> {
           label: 'Explorer',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_border),
-          label: 'Wishlist',
+          icon: Icon(Icons.article),
+          label: 'Notícias',
         ),
         BottomNavigationBarItem(
-          icon: FaIcon(FontAwesomeIcons.airbnb),
-          label: 'Trips',
+          icon: FaIcon(FontAwesomeIcons.question),
+          label: 'Quiz',
         ),
         BottomNavigationBarItem(
-          icon: FaIcon(FontAwesomeIcons.message),
-          label: 'Inbox',
-        ),
-        BottomNavigationBarItem(
-          icon: FaIcon(FontAwesomeIcons.circleUser),
-          label: 'Profile',
+            icon: FaIcon(FontAwesomeIcons.circleUser),
+            label: 'Profile'
         ),
       ],
     );
