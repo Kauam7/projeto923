@@ -33,7 +33,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  dio:
   http: ^0.13.5
   image_picker: ^0.8.7+4
 

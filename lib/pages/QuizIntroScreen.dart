@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_923/pages/GlossarioPage.dart';
 import 'Quiz.dart';
 
 class QuizIntroScreen extends StatelessWidget {
@@ -44,12 +45,10 @@ class QuizIntroScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const QuizScreen(quantPerguntas: 10),
-                  ),
+                  MaterialPageRoute(builder: (context) => const GlossarioPage()),
                 );
               },
-              child: const Text("Iniciar Quiz"),
+              child: const Text("glossario"),
 
             ),
           ],
