@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_923/pages/GlossarioPage.dart';
 import 'Quiz.dart';
+import 'package:projeto_923/domain/noticia.dart';
+import 'package:projeto_923/api/noticiaApi.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class QuizIntroScreen extends StatelessWidget {
   const QuizIntroScreen({super.key});
@@ -14,8 +17,8 @@ class QuizIntroScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          padding: const EdgeInsets.all(20),
           children: [
             const Text(
               "Bem-vindo ao Quiz de Conscientização!",
@@ -39,68 +42,69 @@ class QuizIntroScreen extends StatelessWidget {
                 );
               },
               child: const Text("Iniciar Quiz"),
-
             ),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const GlossarioPage()),
+                  MaterialPageRoute(
+                    builder: (context) => const GlossarioPage(),
+                  ),
                 );
               },
-              child: const Text("glossario"),
-              FutureBuilder<Noticia?>(
-                future: noticiasApi.getRandomNoticia(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return const Text("Erro ao carregar notícia.");
-                  } else if (!snapshot.hasData || snapshot.data == null) {
-                    return const Text("Nenhuma notícia disponível.");
-                  }
+              child: const Text("Glossário"),
+            ),
+            FutureBuilder<Noticia?>(
+              future: NoticiasApi.getRandomNoticia(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return const Text("Erro ao carregar notícia.");
+                } else if (!snapshot.hasData || snapshot.data == null) {
+                  return const Text("Nenhuma notícia disponível.");
+                }
 
-                  final noticia = snapshot.data!;
-                  return Card(
-                    elevation: 4,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (noticia.urlImagem.isNotEmpty)
-                            Image.network(noticia.urlImagem, height: 150, fit: BoxFit.cover),
-                          const SizedBox(height: 10),
-                          Text(
-                            noticia.titulo,
-                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                final noticia = snapshot.data!;
+                return Card(
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (noticia.urlImagem.isNotEmpty)
+                          Image.network(
+                            noticia.urlImagem,
+                            height: 150,
+                            fit: BoxFit.cover,
                           ),
-                          const SizedBox(height: 5),
-                          Text(noticia.descricao),
-                          const SizedBox(height: 10),
-                          Text("Fonte: ${noticia.fonte}", style: const TextStyle(fontSize: 12)),
-                          const SizedBox(height: 10),
-                          ElevatedButton(
-                            onPressed: () async {
-                              final url = Uri.parse(noticia.url);
-                              if (await canLaunchUrl(url)) {
-                                await launchUrl(url, mode: LaunchMode.externalApplication);
-                              }
-                            },
-                            child: const Text("Ler mais"),
-                          ),
-                        ],
-                      ),
+                        const SizedBox(height: 10),
+                        Text(
+                          noticia.titulo,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(noticia.descricao),
+                        const SizedBox(height: 10),
+                        Text(
+                          "Fonte: ${noticia.fonte}",
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ],
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ],
-        ),
+        )
+        ,
       ),
     );
   }
+
 
   void quantasPerg(BuildContext context) {
     final TextEditingController _controller = TextEditingController();

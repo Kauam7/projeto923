@@ -16,7 +16,7 @@ class _GlossarioPageState extends State<GlossarioPage> {
   @override
   void initState() {
     super.initState();
-    futurePropriedades = PropriedadesApi().findAll();
+    futurePropriedades = PropriedadesApi().findAll(); // aqui funciona
   }
 
   @override
