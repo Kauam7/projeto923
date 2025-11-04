@@ -49,7 +49,52 @@ class QuizIntroScreen extends StatelessWidget {
                 );
               },
               child: const Text("glossario"),
+              FutureBuilder<Noticia?>(
+                future: noticiasApi.getRandomNoticia(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return const Text("Erro ao carregar notícia.");
+                  } else if (!snapshot.hasData || snapshot.data == null) {
+                    return const Text("Nenhuma notícia disponível.");
+                  }
 
+                  final noticia = snapshot.data!;
+                  return Card(
+                    elevation: 4,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (noticia.urlImagem.isNotEmpty)
+                            Image.network(noticia.urlImagem, height: 150, fit: BoxFit.cover),
+                          const SizedBox(height: 10),
+                          Text(
+                            noticia.titulo,
+                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(noticia.descricao),
+                          const SizedBox(height: 10),
+                          Text("Fonte: ${noticia.fonte}", style: const TextStyle(fontSize: 12)),
+                          const SizedBox(height: 10),
+                          ElevatedButton(
+                            onPressed: () async {
+                              final url = Uri.parse(noticia.url);
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url, mode: LaunchMode.externalApplication);
+                              }
+                            },
+                            child: const Text("Ler mais"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -104,7 +149,6 @@ class QuizIntroScreen extends StatelessWidget {
         );
       },
     ).then((quantidade) {
-      // depois que o diálogo fecha, se veio uma quantidade válida, navegamos para o Quiz
       if (quantidade != null && quantidade > 0) {
         Navigator.push(
           context,
