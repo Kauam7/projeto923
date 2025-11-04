@@ -3,7 +3,6 @@ import 'package:projeto_923/pages/GlossarioPage.dart';
 import 'Quiz.dart';
 import 'package:projeto_923/domain/noticia.dart';
 import 'package:projeto_923/api/noticiaApi.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class QuizIntroScreen extends StatelessWidget {
   const QuizIntroScreen({super.key});
@@ -65,7 +64,7 @@ class QuizIntroScreen extends StatelessWidget {
                   return const Text("Nenhuma notícia disponível.");
                 }
 
-                final noticia = snapshot.data!;
+                var noticia = snapshot.data!;
                 return Card(
                   elevation: 4,
                   child: Padding(
@@ -133,7 +132,7 @@ class QuizIntroScreen extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(dialogContext).pop(); // fecha sem confirmar
+                Navigator.of(dialogContext).pop();
               },
               child: const Text('Fechar'),
             ),
@@ -142,9 +141,9 @@ class QuizIntroScreen extends StatelessWidget {
                 final String valor = _controller.text;
                 final int? quantidade = int.tryParse(valor);
                 if (quantidade != null && quantidade > 0) {
-                  Navigator.of(dialogContext).pop(quantidade); // retorna a quantidade
+                  Navigator.of(dialogContext).pop(quantidade);
                 } else {
-                  print("fudeu");
+                  print("erro ocorreu");
                 }
               },
               child: const Text('Confirmar'),

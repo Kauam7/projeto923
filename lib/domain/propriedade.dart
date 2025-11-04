@@ -7,7 +7,6 @@ class Propriedade {
     required this.definicao,
   });
 
-  // Construtor a partir de JSON
   factory Propriedade.fromJson(Map<String, dynamic> json) {
     return Propriedade(
       termo: json['termo'] ?? '',
