@@ -8,7 +8,7 @@ class NoticiasApi {
     try {
       final dio = Dio();
       final String baseUrl =
-          'https://newsapi.org/v2/top-headlines?category=health&q=cancer&apiKey=71771b8c51d040b89c7de2ff0375a9fb';
+          'https://newsapi.org/v2/top-headlines?category=health&q=cancer&apiKey=';
 
       final response = await dio.get(baseUrl);
 
