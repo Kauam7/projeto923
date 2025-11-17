@@ -1,31 +1,29 @@
 class Tarefa {
-  int? id;
-  String descricao;
-  String data;
-  bool concluida;
+  late int id;
+  late String descricao;
+  late String data;
+  late bool concluida;
 
   Tarefa({
-    this.id,
+    required this.id,
     required this.descricao,
     required this.data,
-    this.concluida = false,
+    required this.concluida,
   });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'descricao': descricao,
-      'data': data,
-      'concluida': concluida ? 1 : 0,
-    };
+  Tarefa.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    descricao = json['descricao'];
+    data = json['data'];
+    concluida = json['concluida'];
   }
 
-  factory Tarefa.fromMap(Map<String, dynamic> map) {
-    return Tarefa(
-      id: map['id'],
-      descricao: map['descricao'],
-      data: map['data'],
-      concluida: map['concluida'] == 1,
-    );
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['descricao'] = this.descricao;
+    data['data'] = this.data;
+    data['concluida'] = this.concluida;
+    return data;
   }
 }
