@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_923/tarefas_api.dart';
 import 'tarefas.dart';
-import 'tarefas_Dao.dart';
+import 'google_maps.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 class AreaApoio extends StatefulWidget {
@@ -19,9 +20,6 @@ class _AreaApoioState extends State<AreaApoio> {
   List<Tarefa> tarefasDoDia = [];
 
 
-  bool _mostrarConteudo = false;
-
-
   @override
   void initState() {
     super.initState();
@@ -30,7 +28,7 @@ class _AreaApoioState extends State<AreaApoio> {
 
 
   Future<void> _carregarTarefas() async {
-    String hoje = DateTime.now().toIso8601String().substring(0, 10);
+    String () = DateTime.now().toIso8601String().substring(0, 10);
     futureTarefas = TarefasApi().buscarTarefas();
   }
 
@@ -116,6 +114,22 @@ class _AreaApoioState extends State<AreaApoio> {
           ),
           child: Text(fraseMotivacional, style: const TextStyle(fontSize: 16)),
         ),
+        const SizedBox(height: 20),
+
+        ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => GoogleMapsPage(
+                  latLong: LatLng(-9.6658,-35.7350),
+                ),
+              ),
+            );
+          },
+          child: const Text("Ver lugares próximos"),
+        ),
+
 
 
         const SizedBox(height: 20),
