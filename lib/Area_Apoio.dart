@@ -123,6 +123,7 @@ class _AreaApoioState extends State<AreaApoio> {
               MaterialPageRoute(
                 builder: (context) => GoogleMapsPage(
                   latLong: LatLng(-9.6658,-35.7350),
+
                 ),
               ),
             );

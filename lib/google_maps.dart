@@ -18,14 +18,33 @@ class GoogleMapsPageState extends State<GoogleMapsPage> {
   final Completer<GoogleMapController> _controller = Completer<
       GoogleMapController>();
 
+ Set<Marker> marcadores = {};
+  @override
+  void initState() {
+    super.initState();
+    adicionarMarcadores();
+  }
+   void adicionarMarcadores(){
+     marcadores.add(
+      const Marker(
+           markerId: MarkerId("orla"),
+       position: LatLng(-9.6658, -35.7350),
+         infoWindow: InfoWindow(
+         title: "Orla de Maceió",
+         snippet: "Perfeito para caminhada"
+         )
+         )
+       );
+    }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
-        mapType: MapType.normal,
+        mapType: MapType.satellite,
         initialCameraPosition: CameraPosition(
           target: widget.latLong,
-          zoom: 14.5,
+          zoom: 16,
         ),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
