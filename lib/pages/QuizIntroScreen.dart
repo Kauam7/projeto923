@@ -3,9 +3,14 @@ import 'package:projeto_923/pages/GlossarioPage.dart';
 import 'Quiz.dart';
 import 'package:projeto_923/domain/noticia.dart';
 import 'package:projeto_923/api/noticiaApi.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:projeto_923/pages/mapsPage.dart';
+
 
 class QuizIntroScreen extends StatelessWidget {
   const QuizIntroScreen({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +52,27 @@ class QuizIntroScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
+                    builder: (context) => GoogleMapsPage(
+                      latLong: LatLng(-9.6658,-35.7350),
+
+                    ),
+                  ),
+                );
+              },
+              child: const Text("Ver lugares próximos"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
                     builder: (context) => const GlossarioPage(),
                   ),
                 );
               },
               child: const Text("Glossário"),
             ),
+
             FutureBuilder<Noticia?>(
               future: NoticiasApi.getRandomNoticia(),
               builder: (context, snapshot) {
