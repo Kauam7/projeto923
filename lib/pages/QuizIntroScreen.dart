@@ -53,7 +53,7 @@ class QuizIntroScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => GoogleMapsPage(
-                      latLong: LatLng(-9.6658,-35.7350),
+                      latLong: LatLng(-9.6496, -35.7335),
 
                     ),
                   ),
